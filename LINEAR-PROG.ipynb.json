@@ -1,0 +1,2188 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "982a52a2",
+   "metadata": {},
+   "source": [
+    "# Pottery Company Production Planning"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "74152e76",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "raw",
+   "id": "b345a50c",
+   "metadata": {},
+   "source": [
+    "This Python program uses the PuLP library to solve a linear programming problem for a pottery \n",
+    "company that manufactures bowls and mugs. \n",
+    "\n",
+    "The goal is to maximize profit while considering constraints on labor hours and clay availability."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "87fe1570",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#pip install pulp"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "700ac535",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Import necessary libraries\n",
+    "import pulp  # Linear programming library\n",
+    "import pandas as pd  # Data manipulation library (not used in this program)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b1388479",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e3f72b37",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Step 1: Define the Problem\n",
+    "# ==========================\n",
+    "# Create a linear programming problem for maximization\n",
+    "prob = pulp.LpProblem(\"Max_Profit\", pulp.LpMaximize)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "29a7a9a2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "66e02eda",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Step 2: Define Decision Variables\n",
+    "# =================================\n",
+    "# x1 represents the number of bowls produced\n",
+    "# x2 represents the number of mugs produced\n",
+    "x1 = pulp.LpVariable(\"x1\", lowBound=0, cat=\"Continuous\")  # x1 ≥ 0\n",
+    "x2 = pulp.LpVariable(\"x2\", lowBound=0, cat=\"Continuous\")  # x2 ≥ 0"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3eff24f5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "3588e615",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Step 3: Define the Objective Function\n",
+    "# =====================================\n",
+    "# The profit per bowl (x1) is 40, and the profit per mug (x2) is 50\n",
+    "# Objective: Maximize the total profit\n",
+    "prob += 40 * x1 + 50 * x2, \"Profit_Total\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "474be0bc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "ef8ef666",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Step 4: Add Constraints\n",
+    "# ========================\n",
+    "# Constraint 1: Labor availability (40 hours total)\n",
+    "# Each bowl requires 1 hour, and each mug requires 2 hours\n",
+    "prob += x1 + 2 * x2 <= 40, \"Labor_Constraint\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "21086b30",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "da5b0fa2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Constraint 2: Clay availability (120 lbs total)\n",
+    "# Each bowl requires 4 lbs of clay, and each mug requires 3 lbs of clay\n",
+    "prob += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4c69dc11",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "a1bb5438",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Step 5: Solve the Problem\n",
+    "# =========================\n",
+    "# Use the solver to find the optimal solution\n",
+    "prob.solve()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "09dd7a04",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "d447e467",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Step 6: Retrieve the Solution\n",
+    "# =============================\n",
+    "# Retrieve the optimal values of x1 and x2\n",
+    "x1_value = pulp.value(x1)  # Optimal number of bowls to produce\n",
+    "x2_value = pulp.value(x2)  # Optimal number of mugs to produce\n",
+    "\n",
+    "# Retrieve the total profit\n",
+    "profit_value = pulp.value(prob.objective)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "af5dedf1",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== INITIAL SOLUTION ===\n",
+      "Optimal value of x1 (Bowls) = 24.0\n",
+      "Optimal value of x2 (Mugs) = 8.0\n",
+      "Total Profit = 1360.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Step 7: Display the Results\n",
+    "# ===========================\n",
+    "# Display the optimal solution and total profit\n",
+    "print(\"=== INITIAL SOLUTION ===\")\n",
+    "print(f\"Optimal value of x1 (Bowls) = {x1_value}\")\n",
+    "print(f\"Optimal value of x2 (Mugs) = {x2_value}\")\n",
+    "print(f\"Total Profit = {profit_value}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7eb9aa0f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7378403a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "raw",
+   "id": "c6630b9e",
+   "metadata": {},
+   "source": [
+    "\n",
+    "This Python program performs a sensitivity analysis on the coefficients (profits) of the decision variables \n",
+    "x1 (bowls) and x2 (mugs) in a linear programming problem. \n",
+    "The analysis determines the range of profitability where the current optimal production plan remains valid.\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5f3a7b27",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "643fcfc6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#   Step 1 Import necessary libraries\n",
+    "import pulp  # Library for linear programming problems\n",
+    "import pandas as pd  # Library to create and display data tables\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "01eb8668",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "264ed096",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "26.7 66.7\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Step 2: Calculate the lower and upper margins for x1\n",
+    "# ======================================================\n",
+    "\n",
+    "# Initial coefficient for x1 (profit per unit for bowls)\n",
+    "coeff_x1 = 40.0\n",
+    "new_coeff_x1 = coeff_x1\n",
+    "\n",
+    "\n",
+    "# Calculate the lower margin for x1\n",
+    "while True:\n",
+    "    # Define a new problem for minimizing profit for x1\n",
+    "    prob_x1 = pulp.LpProblem(\"Minimisation_Profit_x1\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x1 coefficient\n",
+    "    prob_x1 += new_coeff_x1 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x1 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x1 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x1.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Decrease the coefficient for x1 incrementally by 0.1\n",
+    "    new_coeff_x1 -= 0.1  \n",
+    "# Calculate the lower margin and minimum limit for x1\n",
+    "marge_inf_x1 = round(coeff_x1 - new_coeff_x1, 2)\n",
+    "limite_min_x1 = round(new_coeff_x1, 2)\n",
+    "\n",
+    "# Calculate the upper margin for x1\n",
+    "new_coeff_x1 = coeff_x1\n",
+    "while True:\n",
+    "    # Define a new problem for maximizing profit for x1\n",
+    "    prob_x1 = pulp.LpProblem(\"Maximisation_Profit_x1\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x1 coefficient\n",
+    "    prob_x1 += new_coeff_x1 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x1 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x1 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x1.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Increase the coefficient for x1 incrementally by 1\n",
+    "    new_coeff_x1 += 0.1  \n",
+    "# Calculate the upper margin and maximum limit for x1\n",
+    "marge_sup_x1 = round(new_coeff_x1 - coeff_x1, 2)\n",
+    "limite_max_x1 = round(new_coeff_x1, 2)\n",
+    "\n",
+    "print(marge_sup_x1   , limite_max_x1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5fbb6604",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "a32c17b9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "30.0 80.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Calculate the lower and upper margins for x2\n",
+    "# ======================================================\n",
+    "\n",
+    "# Initial coefficient for x2 (profit per unit for mugs)\n",
+    "coeff_x2 = 50.0\n",
+    "new_coeff_x2 = coeff_x2\n",
+    "\n",
+    "# Calculate the lower margin for x2\n",
+    "while True:\n",
+    "    # Define a new problem for minimizing profit for x2\n",
+    "    prob_x2 = pulp.LpProblem(\"Minimisation_Profit_x2\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x2 coefficient\n",
+    "    prob_x2 += 40 * x1 + new_coeff_x2 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x2 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x2 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x2.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Decrease the coefficient for x2 incrementally by 1\n",
+    "    new_coeff_x2 -= 0.1  \n",
+    "# Calculate the lower margin and minimum limit for x2\n",
+    "marge_inf_x2 = round(coeff_x2 - new_coeff_x2, 2)\n",
+    "limite_min_x2 = round(new_coeff_x2, 2)\n",
+    "\n",
+    "# Calculate the upper margin for x2\n",
+    "new_coeff_x2 = coeff_x2\n",
+    "while True:\n",
+    "    # Define a new problem for maximizing profit for x2\n",
+    "    prob_x2 = pulp.LpProblem(\"Maximisation_Profit_x2\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x2 coefficient\n",
+    "    prob_x2 += 40 * x1 + new_coeff_x2 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x2 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x2 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x2.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Increase the coefficient for x2 incrementally by 1\n",
+    "    new_coeff_x2 += 0.1  \n",
+    "# Calculate the upper margin and maximum limit for x2\n",
+    "marge_sup_x2 = round(new_coeff_x2 - coeff_x2, 2)\n",
+    "limite_max_x2 = round(new_coeff_x2, 2)\n",
+    "\n",
+    "print( marge_sup_x2 , limite_max_x2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f3e8e4b8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "7eac0f92",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "=== RESULTS TABLE ===\n",
+      "     Variable  Coefficient Initial  Marge Inférieure  Marge Supérieure  \\\n",
+      "0  x1 (BOWLS)                 40.0              15.0              26.7   \n",
+      "1   x2 (MUGS)                 50.0              20.0              30.0   \n",
+      "\n",
+      "   Limite Min  Limite Max  \n",
+      "0        25.0        66.7  \n",
+      "1        30.0        80.0  \n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Variable</th>\n",
+       "      <th>Coefficient Initial</th>\n",
+       "      <th>Marge Inférieure</th>\n",
+       "      <th>Marge Supérieure</th>\n",
+       "      <th>Limite Min</th>\n",
+       "      <th>Limite Max</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>x1 (BOWLS)</td>\n",
+       "      <td>40.0</td>\n",
+       "      <td>15.0</td>\n",
+       "      <td>26.7</td>\n",
+       "      <td>25.0</td>\n",
+       "      <td>66.7</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>x2 (MUGS)</td>\n",
+       "      <td>50.0</td>\n",
+       "      <td>20.0</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>80.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "     Variable  Coefficient Initial  Marge Inférieure  Marge Supérieure  \\\n",
+       "0  x1 (BOWLS)                 40.0              15.0              26.7   \n",
+       "1   x2 (MUGS)                 50.0              20.0              30.0   \n",
+       "\n",
+       "   Limite Min  Limite Max  \n",
+       "0        25.0        66.7  \n",
+       "1        30.0        80.0  "
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Step 3: Build and Display the Results Table\n",
+    "# ===========================================\n",
+    "# Create a data dictionary to store the results\n",
+    "data = {\n",
+    "    \"Variable\": [\"x1 (BOWLS)\", \"x2 (MUGS)\"],\n",
+    "    \"Coefficient Initial\": [coeff_x1, coeff_x2],\n",
+    "    \"Marge Inférieure\": [marge_inf_x1, marge_inf_x2],\n",
+    "    \"Marge Supérieure\": [marge_sup_x1, marge_sup_x2],\n",
+    "    \"Limite Min\": [limite_min_x1, limite_min_x2],\n",
+    "    \"Limite Max\": [limite_max_x1, limite_max_x2],\n",
+    "}\n",
+    "\n",
+    "# Create a DataFrame from the data dictionary\n",
+    "tableau = pd.DataFrame(data)\n",
+    "\n",
+    "# Display the results table\n",
+    "print(\"\\n=== RESULTS TABLE ===\")\n",
+    "print(tableau)\n",
+    "tableau\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bd739706",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9d337ba6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ebb40deb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "76772c68",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0fc21d32",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5d448df2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1c46fb5e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "85dce07b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "abbb5ba8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f2030443",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5d590143",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "aaf2add1",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "32ba220c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c5de4bc8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4a3bf006",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "203e1cb9",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "dc1471c3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "=== RESULTS TABLE ===\n",
+      "     Variable  Coefficient Initial  Marge Inférieure  Marge Supérieure  \\\n",
+      "0  x1 (BOWLS)                   40             -26.7              27.0   \n",
+      "1   x2 (MUGS)                   50              20.0              30.0   \n",
+      "\n",
+      "   Limite Min  Limite Max  \n",
+      "0        66.7        67.0  \n",
+      "1        30.0        80.0  \n"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "\n",
+    "# Calculate the lower margin for x1\n",
+    "while True:\n",
+    "    # Define a new problem for minimizing profit for x1\n",
+    "    prob_x1 = pulp.LpProblem(\"Minimisation_Profit_x1\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x1 coefficient\n",
+    "    prob_x1 += new_coeff_x1 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x1 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x1 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x1.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Decrease the coefficient for x1 incrementally by 1\n",
+    "    new_coeff_x1 -= 1  \n",
+    "# Calculate the lower margin and minimum limit for x1\n",
+    "marge_inf_x1 = round(coeff_x1 - new_coeff_x1, 2)\n",
+    "limite_min_x1 = round(new_coeff_x1, 2)\n",
+    "\n",
+    "# Calculate the upper margin for x1\n",
+    "new_coeff_x1 = coeff_x1\n",
+    "while True:\n",
+    "    # Define a new problem for maximizing profit for x1\n",
+    "    prob_x1 = pulp.LpProblem(\"Maximisation_Profit_x1\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x1 coefficient\n",
+    "    prob_x1 += new_coeff_x1 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x1 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x1 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x1.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Increase the coefficient for x1 incrementally by 1\n",
+    "    new_coeff_x1 += 1  \n",
+    "# Calculate the upper margin and maximum limit for x1\n",
+    "marge_sup_x1 = round(new_coeff_x1 - coeff_x1, 2)\n",
+    "limite_max_x1 = round(new_coeff_x1, 2)\n",
+    "\n",
+    "# Calculate the lower and upper margins for x2\n",
+    "# ======================================================\n",
+    "\n",
+    "# Initial coefficient for x2 (profit per unit for mugs)\n",
+    "coeff_x2 = 50.0\n",
+    "new_coeff_x2 = coeff_x2\n",
+    "\n",
+    "# Calculate the lower margin for x2\n",
+    "while True:\n",
+    "    # Define a new problem for minimizing profit for x2\n",
+    "    prob_x2 = pulp.LpProblem(\"Minimisation_Profit_x2\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x2 coefficient\n",
+    "    prob_x2 += 40 * x1 + new_coeff_x2 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x2 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x2 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x2.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Decrease the coefficient for x2 incrementally by 1\n",
+    "    new_coeff_x2 -= 1  \n",
+    "# Calculate the lower margin and minimum limit for x2\n",
+    "marge_inf_x2 = round(coeff_x2 - new_coeff_x2, 2)\n",
+    "limite_min_x2 = round(new_coeff_x2, 2)\n",
+    "\n",
+    "# Calculate the upper margin for x2\n",
+    "new_coeff_x2 = coeff_x2\n",
+    "while True:\n",
+    "    # Define a new problem for maximizing profit for x2\n",
+    "    prob_x2 = pulp.LpProblem(\"Maximisation_Profit_x2\", pulp.LpMaximize)\n",
+    "    # Define the objective function with updated x2 coefficient\n",
+    "    prob_x2 += 40 * x1 + new_coeff_x2 * x2, \"Profit_Total\"\n",
+    "    # Add constraints: Labor and Clay limits\n",
+    "    prob_x2 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x2 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    # Solve the problem\n",
+    "    prob_x2.solve()\n",
+    "    # Stop the loop if the optimal solution changes\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    # Increase the coefficient for x2 incrementally by 1\n",
+    "    new_coeff_x2 += 1  \n",
+    "# Calculate the upper margin and maximum limit for x2\n",
+    "marge_sup_x2 = round(new_coeff_x2 - coeff_x2, 2)\n",
+    "limite_max_x2 = round(new_coeff_x2, 2)\n",
+    "\n",
+    "# Step 3: Build and Display the Results Table\n",
+    "# ===========================================\n",
+    "# Create a data dictionary to store the results\n",
+    "data = {\n",
+    "    \"Variable\": [\"x1 (BOWLS)\", \"x2 (MUGS)\"],\n",
+    "    \"Coefficient Initial\": [x1_initial, x2_initial],\n",
+    "    \"Marge Inférieure\": [marge_inf_x1, marge_inf_x2],\n",
+    "    \"Marge Supérieure\": [marge_sup_x1, marge_sup_x2],\n",
+    "    \"Limite Min\": [limite_min_x1, limite_min_x2],\n",
+    "    \"Limite Max\": [limite_max_x1, limite_max_x2],\n",
+    "}\n",
+    "\n",
+    "# Create a DataFrame from the data dictionary\n",
+    "tableau = pd.DataFrame(data)\n",
+    "\n",
+    "# Display the results table\n",
+    "print(\"\\n=== RESULTS TABLE ===\")\n",
+    "print(tableau)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ecffe109",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f191e889",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bc728491",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "618533a1",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b497d4e8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e685f4c8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "debd9acc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d3a7ba43",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "50617535",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "52660e6e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f836fa37",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "aecc1887",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "659aed89",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5269c4d3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a3d1967a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "eb19dfb6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4bd3e826",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5d9dcfe8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2915c432",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "51aca006",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "dfce8615",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3cfc5f4c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1d2abff4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c987f529",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fed38a04",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f0907f97",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9d53d34c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "68a3202a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "359070fa",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "11c2d75f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "85941858",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "70fac5dc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4a7c4d2e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "dd632bc6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ad4f7504",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7de35610",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e50104b0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5212b668",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7f4782a0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3eea4867",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d00e46ca",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "72a6ea21",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "400f919e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a527f50d",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b7114fcd",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a7a31b98",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7ddfd941",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ef06d1b5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9f5c5dae",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1ad5766c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a21e8966",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3e3f53db",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e3b65a66",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "99eb2dc6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ba114b60",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ce95a917",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "328f1367",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4094cc37",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "35cdf9c8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "45862fdd",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7fdef619",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d6f4f881",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f91b54e7",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f7794c5c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9839a823",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1bc6e119",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d50a5f90",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "423ec9c1",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "debfdca9",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5f75c763",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "57793617",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "71555a76",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8d130c4e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a6e5b741",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "67c3847b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3545ae17",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e107d5cf",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "13dcd87b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "21699b03",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4179b3c5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "20a1e5ff",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9d61567a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "292ed10e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7362004c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "485c0a7e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2d31e06e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e346d0a2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b251c9c0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "632d93dd",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c95115ae",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5708feea",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "57f38a71",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "facaeef9",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "07c4c523",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2bd15419",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c456d9d2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f0f87900",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5daf85ad",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b496725f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bdf39c6d",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ecf49b5a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "14e9fa03",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2c1b7f28",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "dd85a46b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "50786837",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "064224d3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b87983ab",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f43dda73",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6cb12539",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "eb5a66b2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3ccc0588",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "be832666",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9500987c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c05e9fc7",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "641d0ff4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5ec4f9ab",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f9f0a3d8",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1a6aef3d",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6b14b824",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "fec562dc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "71405090",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2c0a16a3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "11d582c3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e43c6aa2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "62884a16",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== INITIAL SOLUTION ===\n",
+      "Optimal value of x1 (Bowls) = 24.0\n",
+      "Optimal value of x2 (Mugs) = 8.0\n",
+      "Total Profit = 1360.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Import necessary libraries\n",
+    "import pulp  # Linear programming library\n",
+    "import pandas as pd  # Data manipulation library (not used in this program)\n",
+    "\n",
+    "# Step 1: Define the Problem\n",
+    "# ==========================\n",
+    "# Create a linear programming problem for maximization\n",
+    "prob = pulp.LpProblem(\"Maximisation_Profit\", pulp.LpMaximize)\n",
+    "\n",
+    "# Step 2: Define Decision Variables\n",
+    "# =================================\n",
+    "# x1 represents the number of bowls produced\n",
+    "# x2 represents the number of mugs produced\n",
+    "x1 = pulp.LpVariable(\"x1\", lowBound=0, cat=\"Continuous\")  # x1 ≥ 0\n",
+    "x2 = pulp.LpVariable(\"x2\", lowBound=0, cat=\"Continuous\")  # x2 ≥ 0\n",
+    "\n",
+    "# Step 3: Define the Objective Function\n",
+    "# =====================================\n",
+    "# The profit per bowl (x1) is 40, and the profit per mug (x2) is 50\n",
+    "# Objective: Maximize the total profit\n",
+    "prob += 40 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "\n",
+    "# Step 4: Add Constraints\n",
+    "# ========================\n",
+    "# Constraint 1: Labor availability (40 hours total)\n",
+    "# Each bowl requires 1 hour, and each mug requires 2 hours\n",
+    "prob += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "\n",
+    "# Constraint 2: Clay availability (120 lbs total)\n",
+    "# Each bowl requires 4 lbs of clay, and each mug requires 3 lbs of clay\n",
+    "prob += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "\n",
+    "# Step 5: Solve the Problem\n",
+    "# =========================\n",
+    "# Use the solver to find the optimal solution\n",
+    "prob.solve()\n",
+    "\n",
+    "# Step 6: Retrieve the Solution\n",
+    "# =============================\n",
+    "# Retrieve the optimal values of x1 and x2\n",
+    "x1_value = pulp.value(x1)  # Optimal number of bowls to produce\n",
+    "x2_value = pulp.value(x2)  # Optimal number of mugs to produce\n",
+    "\n",
+    "# Retrieve the total profit\n",
+    "profit_value = pulp.value(prob.objective)\n",
+    "\n",
+    "# Step 7: Display the Results\n",
+    "# ===========================\n",
+    "# Display the optimal solution and total profit\n",
+    "print(\"=== INITIAL SOLUTION ===\")\n",
+    "print(f\"Optimal value of x1 (Bowls) = {x1_value}\")\n",
+    "print(f\"Optimal value of x2 (Mugs) = {x2_value}\")\n",
+    "print(f\"Total Profit = {profit_value}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c7f77ca9",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c205376e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f501ea34",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "755104f7",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "552aebd3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "79931e4b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4d4a99dc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "f0c52e55",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "=== SOLUTION INITIALE ===\n",
+      "Valeur optimale de x1 = 24.0\n",
+      "Valeur optimale de x2 = 8.0\n",
+      "Profit total = 1360.0\n",
+      "\n",
+      "=== TABLEAU DES RÉSULTATS ===\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Variable</th>\n",
+       "      <th>Coefficient Initial</th>\n",
+       "      <th>Marge Inférieure</th>\n",
+       "      <th>Marge Supérieure</th>\n",
+       "      <th>Limite Min</th>\n",
+       "      <th>Limite Max</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>x1 (BOOL)</td>\n",
+       "      <td>40</td>\n",
+       "      <td>15.0</td>\n",
+       "      <td>27.0</td>\n",
+       "      <td>25.0</td>\n",
+       "      <td>67.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>x2 (MUG)</td>\n",
+       "      <td>50</td>\n",
+       "      <td>20.0</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>80.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    Variable  Coefficient Initial  Marge Inférieure  Marge Supérieure  \\\n",
+       "0  x1 (BOOL)                   40              15.0              27.0   \n",
+       "1   x2 (MUG)                   50              20.0              30.0   \n",
+       "\n",
+       "   Limite Min  Limite Max  \n",
+       "0        25.0        67.0  \n",
+       "1        30.0        80.0  "
+      ]
+     },
+     "execution_count": 50,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pulp\n",
+    "import pandas as pd\n",
+    "\n",
+    "# Étape 1 : Résolution du problème initial\n",
+    "# =========================================\n",
+    "# Créer un problème de maximisation\n",
+    "prob = pulp.LpProblem(\"Maximisation_Profit\", pulp.LpMaximize)\n",
+    "\n",
+    "# Définir les variables de décision\n",
+    "x1 = pulp.LpVariable(\"x1\", lowBound=0, cat=\"Continuous\")\n",
+    "x2 = pulp.LpVariable(\"x2\", lowBound=0, cat=\"Continuous\")\n",
+    "\n",
+    "# Définir la fonction objectif\n",
+    "prob += 40 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "\n",
+    "# Ajouter les contraintes\n",
+    "prob += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "prob += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "\n",
+    "# Résoudre le problème initial\n",
+    "prob.solve()\n",
+    "\n",
+    "# Solution initiale\n",
+    "x1_initial = 40  # Coefficient initial pour x1\n",
+    "x2_initial = 50  # Coefficient initial pour x2\n",
+    "\n",
+    "# Résultats optimaux initiaux\n",
+    "x1_value = pulp.value(x1)\n",
+    "x2_value = pulp.value(x2)\n",
+    "\n",
+    "# Afficher les solutions optimales\n",
+    "print(\"=== SOLUTION INITIALE ===\")\n",
+    "print(f\"Valeur optimale de x1 = {pulp.value(x1)}\")\n",
+    "print(f\"Valeur optimale de x2 = {pulp.value(x2)}\")\n",
+    "print(f\"Profit total = {pulp.value(prob.objective)}\")\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "\n",
+    "# Étape 2 : Calcul des marges supérieures et inférieures\n",
+    "# ======================================================\n",
+    "# Calcul de la marge inférieure et supérieure pour x1\n",
+    "coeff_x1 = 40.0\n",
+    "new_coeff_x1 = coeff_x1\n",
+    "\n",
+    "# Calcul marge inférieure pour x1\n",
+    "while True:\n",
+    "    prob_x1 = pulp.LpProblem(\"Minimisation_Profit_x1\", pulp.LpMaximize)\n",
+    "    prob_x1 += new_coeff_x1 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "    prob_x1 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x1 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    prob_x1.solve()\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    new_coeff_x1 -= 1  # Diminuer avec une précision de 0.01\n",
+    "marge_inf_x1 = round(coeff_x1 - new_coeff_x1, 2)\n",
+    "limite_min_x1 = round(new_coeff_x1, 2)\n",
+    "\n",
+    "# Calcul marge supérieure pour x1\n",
+    "new_coeff_x1 = coeff_x1\n",
+    "while True:\n",
+    "    prob_x1 = pulp.LpProblem(\"Maximisation_Profit_x1\", pulp.LpMaximize)\n",
+    "    prob_x1 += new_coeff_x1 * x1 + 50 * x2, \"Profit_Total\"\n",
+    "    prob_x1 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x1 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    prob_x1.solve()\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    new_coeff_x1 += 1  # Augmenter avec une précision de 0.01\n",
+    "marge_sup_x1 = round(new_coeff_x1 - coeff_x1, 2)\n",
+    "limite_max_x1 = round(new_coeff_x1, 2)\n",
+    "\n",
+    "# Calcul de la marge inférieure et supérieure pour x2\n",
+    "coeff_x2 = 50.0\n",
+    "new_coeff_x2 = coeff_x2\n",
+    "\n",
+    "# Calcul marge inférieure pour x2\n",
+    "while True:\n",
+    "    prob_x2 = pulp.LpProblem(\"Minimisation_Profit_x2\", pulp.LpMaximize)\n",
+    "    prob_x2 += 40 * x1 + new_coeff_x2 * x2, \"Profit_Total\"\n",
+    "    prob_x2 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x2 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    prob_x2.solve()\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    new_coeff_x2 -= 1  # Diminuer avec une précision de 0.01\n",
+    "marge_inf_x2 = round(coeff_x2 - new_coeff_x2, 2)\n",
+    "limite_min_x2 = round(new_coeff_x2, 2)\n",
+    "\n",
+    "# Calcul marge supérieure pour x2\n",
+    "new_coeff_x2 = coeff_x2\n",
+    "while True:\n",
+    "    prob_x2 = pulp.LpProblem(\"Maximisation_Profit_x2\", pulp.LpMaximize)\n",
+    "    prob_x2 += 40 * x1 + new_coeff_x2 * x2, \"Profit_Total\"\n",
+    "    prob_x2 += x1 + 2 * x2 <= 40, \"Labor_Constraint\"\n",
+    "    prob_x2 += 4 * x1 + 3 * x2 <= 120, \"Clay_Constraint\"\n",
+    "    prob_x2.solve()\n",
+    "    if pulp.value(x1) != x1_value or pulp.value(x2) != x2_value:\n",
+    "        break\n",
+    "    new_coeff_x2 += 1  # Augmenter avec une précision de 0.01\n",
+    "marge_sup_x2 = round(new_coeff_x2 - coeff_x2, 2)\n",
+    "limite_max_x2 = round(new_coeff_x2, 2)\n",
+    "\n",
+    "# Étape 3 : Construire le tableau\n",
+    "# ================================\n",
+    "data = {\n",
+    "    \"Variable\": [\"x1 (BOOL)\", \"x2 (MUG)\"],\n",
+    "    \"Coefficient Initial\": [x1_initial, x2_initial],\n",
+    "    \"Marge Inférieure\": [marge_inf_x1, marge_inf_x2],\n",
+    "    \"Marge Supérieure\": [marge_sup_x1, marge_sup_x2],\n",
+    "    \"Limite Min\": [limite_min_x1, limite_min_x2],\n",
+    "    \"Limite Max\": [limite_max_x1, limite_max_x2],\n",
+    "}\n",
+    "\n",
+    "tableau = pd.DataFrame(data)\n",
+    "print(\"\\n=== TABLEAU DES RÉSULTATS ===\")\n",
+    "tableau\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "38a0ea71",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d129618b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
